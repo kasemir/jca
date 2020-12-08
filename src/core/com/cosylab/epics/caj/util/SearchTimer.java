@@ -108,18 +108,20 @@ public class SearchTimer extends Thread {
 		restart();
 	}
 
-	public synchronized void rescheduleAllAfterDelay(long millisecondsToDelay) {
+	public synchronized int rescheduleAllAfterDelay(long millisecondsToDelay) {
 		long timeToRun = System.currentTimeMillis() + millisecondsToDelay;
 
+                int count = 0;
 		synchronized (heap) {
 			Iterator<TimerTask> nodes = heap.iterator();
 			while (nodes.hasNext()) {
+                                ++count;
 				TimerTask t = nodes.next();
 				t.setTimeToRun(millisecondsToDelay, timeToRun);
 			}
 		}
-
 		restart();
+                return count;
 	}
 
 	/**

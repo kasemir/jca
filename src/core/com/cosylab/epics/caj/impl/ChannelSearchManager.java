@@ -138,7 +138,9 @@ public class ChannelSearchManager {
 		if (canceled.get())
 			return;
 		
-		timer.rescheduleAllAfterDelay(0);
+		int count = timer.rescheduleAllAfterDelay(0);
+                if (count > 0)
+		    context.getLogger().log(Level.WARNING, "ChannelSearchManager.beaconAnomalyNotify triggered " + count + " searches");
 	}
 	
 	/**
